@@ -1,58 +1,38 @@
 /* eslint no-redeclare: 0 */
-/* global fetch:writable */
-import { configRead } from './config';
 
-const SHELF_SHORTS = 'TVHTML5_SHELF_RENDERER_TYPE_SHORTS';
+import { configRead } from './config';
+import { isShortsNode } from './shorts-shared';
+
+function stripShorts(node) {
+  if (node == null || typeof node !== 'object') return;
+
+  if (Array.isArray(node)) {
+    for (let i = node.length - 1; i >= 0; i--) {
+      if (isShortsNode(node[i])) {
+        node.splice(i, 1);
+      } else {
+        stripShorts(node[i]);
+      }
+    }
+    return;
+  }
+
+  for (const key in node) {
+    stripShorts(node[key]);
+  }
+}
 
 const origParse = JSON.parse;
 JSON.parse = function () {
   const r = origParse.apply(this, arguments);
-  if (!configRead('removeShorts')) {
-    return r;
-  }
+  try {
+    if (!configRead('blockShorts')) {
+      return r;
+    }
 
-  // First page of subscriptions tab
-  const gridRenderer = findFirstObject(r, 'gridRenderer');
-  if (gridRenderer?.items) {
-    removeShorts(gridRenderer);
+    stripShorts(r);
+  } catch (e) {
+    console.warn('Shorts filter failed:', e);
   }
-
-  // Pagination
-  const gridContinuation = findFirstObject(r, 'gridContinuation');
-  if (gridContinuation?.items) {
-    removeShorts(gridContinuation);
-  }
-
-  // Shelf on subscriptions tab
-  const sectionListRenderer = findFirstObject(r, 'sectionListRenderer');
-  if (sectionListRenderer?.contents) {
-    removeShelvesWithShorts(sectionListRenderer);
-  }
-
   return r;
 };
-
-function removeShorts(container) {
-  container.items = container.items.filter(
-    (elm) => elm?.tileRenderer?.onSelectCommand?.reelWatchEndpoint == null
-  );
-}
-
-function removeShelvesWithShorts(container) {
-  container.contents = container.contents.filter(
-    (elm) => elm?.shelfRenderer?.tvhtml5ShelfRendererType != SHELF_SHORTS
-  );
-}
-
-function findFirstObject(haystack, needle) {
-  for (const key in haystack) {
-    if (key === needle) {
-      return haystack[key];
-    }
-    if (typeof haystack[key] === 'object') {
-      const result = findFirstObject(haystack[key], needle);
-      if (result) return result;
-    }
-  }
-  return null;
-}

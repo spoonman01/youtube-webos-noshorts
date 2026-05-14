@@ -17,6 +17,7 @@
     "lint:eslint": "eslint --concurrency auto",
     "lint:tsc": "tsc -b",
     "lint:prettier": "prettier --check .",
+    "lint:write": "prettier --write .",
     "lint:all": "pnpm run \"/^lint:(?!all)/\""
   },
   "repository": "github:webosbrew/youtube-webos",

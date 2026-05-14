@@ -126,10 +126,10 @@ function createOptionsPanel() {
   elmContainer.appendChild(createConfigCheckbox('upgradeThumbnails'));
   elmContainer.appendChild(createConfigCheckbox('hideLogo'));
   elmContainer.appendChild(createConfigCheckbox('showWatch'));
-  elmContainer.appendChild(createConfigCheckbox('removeShorts'));
   elmContainer.appendChild(createConfigCheckbox('forceHighResVideo'));
   elmContainer.appendChild(createConfigCheckbox('removeEndscreen'));
   elmContainer.appendChild(createConfigCheckbox('autoAccountSelect'));
+  elmContainer.appendChild(createConfigCheckbox('blockShorts'));
   elmContainer.appendChild(createConfigCheckbox('enableSponsorBlock'));
 
   const elmBlock = document.createElement('blockquote');

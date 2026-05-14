@@ -68,6 +68,10 @@ export interface YTPlayer extends HTMLElement {
 
   setPlaybackQualityRange(min: string, max: string, formatId?: string): void;
 
+  stopVideo?(): void;
+
+  pauseVideo?(): void;
+
   getVideoData(): VideoData;
 
   getPlayerStateObject(): PlayerStateObject;

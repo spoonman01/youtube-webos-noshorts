@@ -76,6 +76,13 @@ const configOptions = new Map([
       default: false,
       desc: 'Bypass initial account selection on startup'
     }
+  ],
+  [
+    'blockShorts',
+    {
+      default: true,
+      desc: 'Hide and block YouTube Shorts'
+    }
   ]
 ]);
 

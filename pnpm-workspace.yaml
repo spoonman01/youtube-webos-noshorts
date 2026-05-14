@@ -1,3 +1,8 @@
+allowBuilds:
+  '@webos-tools/cli': true
+  core-js-pure: true
+  cpu-features: true
+  ssh2: true
 onlyBuiltDependencies:
   - '@webos-tools/cli'
   - core-js-pure
