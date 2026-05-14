@@ -1,6 +1,6 @@
 # youtube-webos
 
-YouTube App with extended functionalities
+Fork of the LG webOS YouTube app with additional blocking and playback controls.
 
 ![Configuration Screen](https://github.com/webosbrew/youtube-webos/blob/main/screenshots/1_sm.jpg?raw=true)
 ![Segment Skipped](https://github.com/webosbrew/youtube-webos/blob/main/screenshots/2_sm.jpg?raw=true)
@@ -8,10 +8,17 @@ YouTube App with extended functionalities
 ## Features
 
 - Advertisements blocking
+- Shorts hiding and blocking
 - [SponsorBlock](https://sponsor.ajay.app/) integration
+- Optional high-resolution playback forcing
+- Optional endscreen removal
 - [Autostart](#autostart)
 
-**Note:** Configuration screen can be opened by pressing 🟩 GREEN button on the remote.
+Shorts blocking is enabled by default. The app removes Shorts shelves and entries
+from browse/search payloads, blocks Shorts navigation commands, and exits Shorts
+playback if one still slips through.
+
+**Note:** Configuration screen can be opened by pressing the 🟩 GREEN button on the remote.
 
 ## Pre-requisites
 
@@ -19,15 +26,17 @@ YouTube App with extended functionalities
 
 ## Installation
 
-- Use [webOS Homebrew Channel](https://github.com/webosbrew/webos-homebrew-channel) - app is published in official webosbrew repo
-- Use [Device Manager app](https://github.com/webosbrew/dev-manager-desktop) - see [Releases](https://github.com/webosbrew/youtube-webos/releases) for a
-  prebuilt `.ipk` binary file
+- Build an `.ipk` from this fork and install it with the
+  [Device Manager app](https://github.com/webosbrew/dev-manager-desktop)
 - Use [webOS TV CLI tools](https://webostv.developer.lge.com/develop/tools/cli-installation) -
-  `ares-install youtube...ipk` (For more information on configuring the webOS CLI tools, see [below](#development-tv-setup))
+  `ares-install youtube...ipk` (for more information on configuring the webOS CLI tools, see [below](#development-tv-setup))
 
 ## Configuration
 
 Configuration screen can be opened by pressing 🟩 GREEN button on the remote.
+
+Available toggles include ad blocking, Shorts blocking, SponsorBlock, thumbnail
+upgrades, endscreen removal, max-resolution playback, and a few UI/system fixes.
 
 ### Autostart
 
@@ -66,9 +75,10 @@ git clone https://github.com/webosbrew/youtube-webos.git
 cd youtube-webos
 
 # Install dependencies (need to do this only when updating local repository / package.json is changed)
-npm install
+pnpm install
 
-npm run build && npm run package
+pnpm run build
+pnpm run package
 ```
 
 ## Development TV setup
@@ -108,7 +118,7 @@ ares-setup-device -a webos -i "username=root" -i "privatekey=id_rsa" -i "passphr
 ## Installation
 
 ```sh
-npm run deploy
+pnpm run deploy
 ```
 
 ## Launching
@@ -116,11 +126,11 @@ npm run deploy
 - The app will be available in the TV's app list. You can also launch it using the webOS CLI tools.
 
 ```sh
-npm run launch
+pnpm run launch
 ```
 
 To jump immediately into some specific video use:
 
 ```sh
-npm run launch -- -p '{"contentTarget":"v=F8PGWLvn1mQ"}'
+pnpm run launch -- -p '{"contentTarget":"v=F8PGWLvn1mQ"}'
 ```
